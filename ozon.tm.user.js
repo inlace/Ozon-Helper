@@ -4,7 +4,7 @@
 // @version     0.1
 // @description Показывает остатки товара в корзине
 // @author      Nudzh
-// @match       *://www.ozon.ru/cart
+// @match       *://www.ozon.ru/cart*
 // @run-at		document-end
 // @grant       unsafeWindow
 // @grant       window.close
@@ -12,17 +12,20 @@
 // @updateURL	https://github.com/inlace/Ozon-Helper/raw/main/ozon.tm.user.js
 // ==/UserScript==
 
-function calculate() {
-
-	const body = document.getElementsByTagName('body')[0].innerHTML
-	const max = [...body.matchAll(/maxQuantity&quot;:(\d+),/g)]
-	const selector = document.querySelectorAll('.a8h4')
-
-	for (var i = 0; i < selector.length; i++) {
-		if (max[i][1] > 1) {
-			selector[i].innerHTML += `Осталось ${max[i][1]} шт.`
-		}
-	}
+function load() {
+    const timer = setInterval(() => {
+        const body = document.body.innerHTML
+        const max = [...body.matchAll(/maxQuantity&quot;:(\d+),/g)]
+        const selector = document.querySelectorAll('.a8h4')
+        const checkbox = document.body.innerHTML.match(/a7f5 a7f6/g)
+        if (checkbox) return
+        for (let i = 0; i < selector.length; i++) {
+            if (max[i][1] > 1) {
+                selector[i].innerHTML += `Осталось ${max[i][1]} шт.`
+            }
+        }
+        clearInterval(timer)
+    }, 1);
 }
 
-setTimeout(calculate, 2000);
+document.addEventListener('DOMContentLoaded', load());
