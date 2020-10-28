@@ -17,8 +17,9 @@ function load() {
         const body = document.body.innerHTML
         const max = [...body.matchAll(/maxQuantity&quot;:(\d+),/g)]
         const selector = document.querySelectorAll('.a8h4')
-        const checkbox = document.body.innerHTML.match(/a7f5 a7f6/g)
-        if (checkbox) return
+        const checkbox = body.match(/a7f5 a7f6/g)
+        const banner = body.match(/a0k3 a0k5 a1k9/g)
+        if (checkbox || banner) return
         for (let i = 0; i < selector.length; i++) {
             if (max[i][1] > 1) {
                 selector[i].innerHTML += `Осталось ${max[i][1]} шт.`
